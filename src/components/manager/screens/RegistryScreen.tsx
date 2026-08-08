@@ -48,6 +48,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 
 import {
+  useHealthChecks,
   useInsertRecord,
   useManyRecords,
   useUpdateRecord,
@@ -575,6 +576,7 @@ function MonitoringPanel({ services, requestLogs }: { services: Row[]; requestLo
   const avgLatency = requestLogs.length
     ? Math.round(requestLogs.reduce((s, r) => s + n(r, "latency_ms"), 0) / requestLogs.length)
     : 0;
+  const health = useHealthChecks();
 
   return (
     <div className="space-y-4">
@@ -583,7 +585,36 @@ function MonitoringPanel({ services, requestLogs }: { services: Row[]; requestLo
         <StatCard label="Errors (recent)" value={errorCount} icon={<Activity className="h-4 w-4" />} tone="red" />
         <StatCard label="Services Monitored" value={services.length} icon={<Plug className="h-4 w-4" />} tone="violet" />
       </div>
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border/50 bg-secondary/20 p-3">
+        <div>
+          <p className="text-sm font-medium text-foreground">Live endpoint probe</p>
+          <p className="text-xs text-muted-foreground">
+            Sends a real HTTP request to every registered external endpoint and stores the measured status and latency.
+          </p>
+        </div>
+        <Button size="sm" onClick={() => health.mutate(undefined)} disabled={health.isPending}>
+          <Activity className="mr-2 h-4 w-4" />
+          {health.isPending ? "Probing…" : "Run health check"}
+        </Button>
+      </div>
+      {health.data ? (
+        <GlassCard title="Last probe result" icon={<Activity className="h-4 w-4 text-primary" />}>
+          <div className="space-y-1 text-xs">
+            {health.data.map((r) => (
+              <div key={r.serviceId} className="flex items-center justify-between gap-3 border-b border-border/30 py-1 last:border-0">
+                <span className="truncate text-foreground">{r.name}</span>
+                <span className="truncate text-muted-foreground">{r.url}</span>
+                <span className="shrink-0 text-muted-foreground">
+                  {r.statusCode ?? "—"} · {r.latencyMs}ms
+                </span>
+                <StatusBadge value={r.status} />
+              </div>
+            ))}
+          </div>
+        </GlassCard>
+      ) : null}
       <GlassCard title="Service Health" icon={<Activity className="h-4 w-4 text-primary" />}>
+
         {services.length === 0 ? (
           <EmptyState message="No services to monitor" />
         ) : (

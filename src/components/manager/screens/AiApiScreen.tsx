@@ -13,6 +13,7 @@ import {
   DollarSign,
   Gauge,
   Layers,
+  Zap,
 } from "lucide-react";
 import {
   Area,
@@ -33,6 +34,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import {
   useManyRecords,
+  useModelTest,
   useUpdateRecord,
   type Row,
 } from "@/lib/manager-queries";
@@ -153,6 +155,17 @@ function ModalitySection({
     ? modalityModels.reduce((sum, m) => sum + Number(m['quality_score'] ?? 0), 0) / modalityModels.length
     : 0;
 
+  const modelTest = useModelTest();
+  const [testingId, setTestingId] = useState<string | null>(null);
+
+  const runTest = (model: Row) => {
+    setTestingId(String(model['id']));
+    modelTest.mutate({
+      modelRowId: String(model['id']),
+      prompt: `Reply with a one-line health confirmation for the ${String(model['name'])} model.`,
+    });
+  };
+
   const toggleStatus = (model: Row) => {
     const next = model['status'] === "active" ? "inactive" : "active";
     updateModel.mutate({ table: "ai_models", id: String(model['id']), values: { status: next } });
@@ -211,21 +224,39 @@ function ModalitySection({
                     <span>Quality: {Number(model['quality_score'] ?? 0).toFixed(1)}</span>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    disabled={Boolean(model['is_default']) || updateModel.isPending}
-                    onClick={() => setDefault(model)}
-                  >
-                    <Star className="mr-1 h-3.5 w-3.5" /> Set default
-                  </Button>
+                <div className="flex flex-col items-end gap-2">
                   <div className="flex items-center gap-2">
-                    <Power className="h-3.5 w-3.5 text-muted-foreground" />
-                    <Switch checked={model['status'] === "active"} onCheckedChange={() => toggleStatus(model)} />
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      disabled={modelTest.isPending}
+                      onClick={() => runTest(model)}
+                    >
+                      <Zap className="mr-1 h-3.5 w-3.5" />
+                      {modelTest.isPending && testingId === String(model['id']) ? "Testing…" : "Live test"}
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      disabled={Boolean(model['is_default']) || updateModel.isPending}
+                      onClick={() => setDefault(model)}
+                    >
+                      <Star className="mr-1 h-3.5 w-3.5" /> Set default
+                    </Button>
+                    <div className="flex items-center gap-2">
+                      <Power className="h-3.5 w-3.5 text-muted-foreground" />
+                      <Switch checked={model['status'] === "active"} onCheckedChange={() => toggleStatus(model)} />
+                    </div>
                   </div>
+                  {testingId === String(model['id']) && modelTest.data ? (
+                    <p className="max-w-sm text-right text-xs text-muted-foreground">
+                      “{modelTest.data.reply}” · {modelTest.data.tokensIn + modelTest.data.tokensOut} tokens ·{" "}
+                      {usd(modelTest.data.costUsd)}
+                    </p>
+                  ) : null}
                 </div>
               </div>
+
             ))}
           </div>
         )}

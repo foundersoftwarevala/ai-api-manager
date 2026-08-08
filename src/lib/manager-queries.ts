@@ -10,6 +10,8 @@ import {
   updateRecord,
   type Row,
 } from "./manager-data.functions";
+import { runHealthChecks, runModelTest } from "./manager-ops.functions";
+import type { HealthResult, ModelTestResult } from "./manager-ops.types";
 import type { ManagerTable } from "./manager-tables";
 
 export type { Row };
@@ -105,3 +107,37 @@ export function useDeleteRecord(successMessage = "Deleted") {
     onError: (e: Error) => toast.error(e.message),
   });
 }
+
+/** Live HTTP probe of every registered service endpoint. */
+export function useHealthChecks() {
+  const fn = useServerFn(runHealthChecks);
+  const invalidate = useInvalidate();
+  return useMutation({
+    mutationFn: (vars?: { serviceIds?: string[] }): Promise<HealthResult[]> => fn({ data: vars ?? {} }),
+    onSuccess: (results) => {
+      invalidate();
+      const checked = results.filter((r) => r.status !== "skipped");
+      const down = checked.filter((r) => r.status === "down").length;
+      const degraded = checked.filter((r) => r.status === "degraded").length;
+      toast.success(
+        `Probed ${checked.length} endpoints — ${checked.length - down - degraded} healthy, ${degraded} degraded, ${down} down`,
+      );
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+}
+
+/** Real chat completion against the AI gateway, logged to decision + usage tables. */
+export function useModelTest() {
+  const fn = useServerFn(runModelTest);
+  const invalidate = useInvalidate();
+  return useMutation({
+    mutationFn: (vars: { modelRowId: string; prompt: string }): Promise<ModelTestResult> => fn({ data: vars }),
+    onSuccess: (r) => {
+      invalidate();
+      toast.success(`${r.model} replied in ${r.latencyMs}ms (${r.tokensIn + r.tokensOut} tokens)`);
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+}
+
