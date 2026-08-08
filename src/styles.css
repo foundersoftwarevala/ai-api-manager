@@ -126,8 +126,8 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
 
-  --font-sans: "Outfit", system-ui, sans-serif;
-  --font-display: "Space Grotesk", "Outfit", sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
   --color-background: hsl(var(--background));
@@ -140,6 +140,11 @@
   --color-popover-foreground: hsl(var(--popover-foreground));
   --color-primary: hsl(var(--primary));
   --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-glow: hsl(var(--primary-glow));
+  --color-surface-foreground: hsl(var(--surface-foreground));
+  --color-accent-pink: hsl(var(--accent-pink));
+  --color-accent-amber: hsl(var(--accent-amber));
+  --color-accent-emerald: hsl(var(--accent-emerald));
   --color-brand: hsl(var(--brand));
   --color-brand-foreground: hsl(var(--brand-foreground));
   --color-secondary: hsl(var(--secondary));
@@ -200,11 +205,19 @@
     border-color: hsl(var(--border));
   }
 
+  html,
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
-    font-family: "Outfit", system-ui, sans-serif;
+  }
+
+  body {
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(60% 40% at 20% 0%, hsl(var(--primary) / 0.12), transparent 60%),
+      radial-gradient(50% 35% at 90% 10%, hsl(var(--primary-glow) / 0.07), transparent 60%);
+    background-attachment: fixed;
   }
 
   h1,
@@ -213,7 +226,7 @@
   h4,
   h5,
   h6 {
-    font-family: "Space Grotesk", "Outfit", sans-serif;
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
     font-weight: 600;
     letter-spacing: -0.015em;
   }
@@ -224,19 +237,30 @@
     font-family: "JetBrains Mono", ui-monospace, monospace;
   }
 
+  /* Thin, rounded, auto-hiding premium scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+  }
+  *:hover,
+  *:focus-within {
+    scrollbar-color: hsl(var(--foreground) / 0.22) transparent;
+  }
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: hsl(var(--background));
+    background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: hsl(var(--border));
-    border-radius: 999px;
+    background: transparent;
+    border-radius: 9999px;
+    transition: background 200ms ease;
   }
-  ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--primary) / 0.6);
+  *:hover::-webkit-scrollbar-thumb,
+  *:focus-within::-webkit-scrollbar-thumb {
+    background: hsl(var(--foreground) / 0.2);
   }
 }
 
