@@ -263,44 +263,54 @@ function StatusBar({ onOpenMobile }: { onOpenMobile: () => void }) {
     };
   }, [data]);
 
-  return (
-    <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center gap-3 border-b border-border bg-background/80 px-4 backdrop-blur-xl sm:px-6 lg:px-8">
-      <Button
-        variant="ghost"
-        size="icon"
-        className="lg:hidden"
-        aria-label="Open navigation"
-        onClick={onOpenMobile}
-      >
-        <Menu className="h-5 w-5" />
-      </Button>
+  const ICON_BTN =
+    "icon3d grid h-9 w-9 shrink-0 place-items-center rounded-xl text-muted-foreground transition-transform duration-200 hover:text-foreground active:scale-[0.96]";
 
-      <div className="ml-auto flex items-center gap-2 text-xs">
-        <Badge variant="outline" className="hidden gap-1 border-status-success/40 text-status-success sm:flex">
-          <Activity className="h-3 w-3" /> {num(stats.online)}/{num(stats.total)} online
-        </Badge>
-        <Badge variant="outline" className="hidden gap-1 border-primary-glow/40 text-primary-glow md:flex">
-          <Wallet className="h-3 w-3" /> {inr(stats.balance)}
-        </Badge>
-        <Badge
-          variant="outline"
-          className={cn(
-            "gap-1",
-            stats.alerts > 0
-              ? "border-status-error/40 text-status-error"
-              : "border-border text-muted-foreground",
-          )}
+  return (
+    <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-xl">
+      <div className="flex h-14 items-center gap-1.5 px-3 lg:px-5">
+        <button
+          type="button"
+          className={cn(ICON_BTN, "lg:hidden")}
+          aria-label="Open navigation"
+          onClick={onOpenMobile}
         >
-          <Bell className="h-3 w-3" /> {num(stats.alerts)}
-        </Badge>
-        {stats.frozen ? (
-          <Badge variant="outline" className="gap-1 border-status-error/40 text-status-error">
-            <ShieldCheck className="h-3 w-3" /> Controls engaged
+          <Menu className="h-[18px] w-[18px]" />
+        </button>
+
+        <div className="flex-1" />
+
+        <nav className="flex items-center gap-1.5 text-xs" aria-label="Status">
+          <Badge variant="outline" className="hidden gap-1 border-status-success/40 text-status-success sm:flex">
+            <Activity className="h-3 w-3" /> {num(stats.online)}/{num(stats.total)} online
           </Badge>
-        ) : null}
+          <Badge variant="outline" className="hidden gap-1 border-primary-glow/40 text-primary-glow md:flex">
+            <Wallet className="h-3 w-3" /> {inr(stats.balance)}
+          </Badge>
+          {stats.frozen ? (
+            <Badge variant="outline" className="gap-1 border-status-error/40 text-status-error">
+              <ShieldCheck className="h-3 w-3" /> Controls engaged
+            </Badge>
+          ) : null}
+
+          <button type="button" className={cn(ICON_BTN, "relative")} aria-label="Alerts">
+            <Bell className="h-[18px] w-[18px]" />
+            {stats.alerts > 0 ? (
+              <span className="absolute -right-0.5 -top-0.5 grid h-4 min-w-4 place-items-center rounded-full bg-destructive px-1 text-[10px] font-bold text-destructive-foreground ring-2 ring-background">
+                {stats.alerts}
+              </span>
+            ) : null}
+          </button>
+
+          <span className="relative ml-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary text-[11px] font-bold text-primary-foreground ring-1 ring-white/15">
+            SV
+            <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-accent-emerald ring-2 ring-background" />
+          </span>
+        </nav>
       </div>
     </header>
   );
+
 }
 
 function ManagerLayout() {
