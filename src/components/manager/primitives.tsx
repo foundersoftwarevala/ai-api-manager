@@ -71,7 +71,7 @@ export function GlassCard({
   className?: string;
 }) {
   return (
-    <Card className={cn("glass-panel border-border/50", className)}>
+    <Card className={cn("glass-panel border-0 shadow-none", className)}>
       {title ? (
         <CardHeader className="flex flex-row items-center justify-between gap-2 pb-3">
           <CardTitle className="flex items-center gap-2 text-base font-semibold text-foreground">
@@ -87,12 +87,12 @@ export function GlassCard({
 }
 
 const TONES: Record<string, string> = {
-  primary: "from-primary to-neon-violet",
-  cyan: "from-neon-cyan to-neon-teal",
-  green: "from-neon-green to-neon-teal",
-  amber: "from-neon-gold to-neon-orange",
-  red: "from-neon-red to-neon-pink",
-  violet: "from-neon-violet to-neon-blue",
+  primary: "from-primary to-primary-glow",
+  cyan: "from-primary-glow to-neon-cyan",
+  green: "from-accent-emerald to-neon-teal",
+  amber: "from-accent-amber to-neon-orange",
+  red: "from-destructive to-neon-pink",
+  violet: "from-accent-pink to-primary-glow",
   slate: "from-muted to-secondary",
 };
 
@@ -113,12 +113,12 @@ export function StatCard({
 }) {
   const positive = change?.startsWith("+");
   return (
-    <Card className="glass-panel border-border/50 transition-colors hover:border-primary/40">
-      <CardContent className="p-4">
+    <Card className="glass-panel border-0 shadow-none">
+      <CardContent className="p-5">
         <div className="flex items-start justify-between">
           <div
             className={cn(
-              "rounded-lg bg-gradient-to-br p-2 text-primary-foreground",
+              "rounded-xl bg-gradient-to-br p-2.5 text-primary-foreground shadow-[0_10px_24px_-12px_hsl(var(--primary)/0.9)]",
               TONES[tone] ?? TONES['primary'],
             )}
           >
