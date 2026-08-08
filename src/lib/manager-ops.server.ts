@@ -3,12 +3,6 @@
  * These perform genuine outbound HTTP calls and persist the results.
  */
 
-type Db = Awaited<
-  ReturnType<typeof import("@/integrations/supabase/client.server")>["supabaseAdmin"] extends never
-    ? never
-    : () => never
->;
-
 async function admin() {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   return supabaseAdmin;
@@ -253,5 +247,3 @@ export async function runModelTestImpl(input: {
     latencyMs,
   };
 }
-
-export type { Db };
