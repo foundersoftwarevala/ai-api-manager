@@ -1,0 +1,1 @@
+DELETE FROM public.error_events WHERE message = 'monitor smoke test';

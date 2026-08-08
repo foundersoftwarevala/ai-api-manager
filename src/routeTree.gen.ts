@@ -10,33 +10,60 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ManagerRouteImport } from './routes/manager'
+import { Route as ManagerIndexRouteImport } from './routes/manager/index'
+import { Route as ManagerSectionRouteImport } from './routes/manager/$section'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ManagerRoute = ManagerRouteImport.update({
+  id: '/manager',
+  path: '/manager',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ManagerIndexRoute = ManagerIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ManagerRoute,
+} as any)
+const ManagerSectionRoute = ManagerSectionRouteImport.update({
+  id: '/$section',
+  path: '/$section',
+  getParentRoute: () => ManagerRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/manager': typeof ManagerRouteWithChildren
+  '/manager/$section': typeof ManagerSectionRoute
+  '/manager/': typeof ManagerIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/manager/$section': typeof ManagerSectionRoute
+  '/manager': typeof ManagerIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/manager': typeof ManagerRouteWithChildren
+  '/manager/$section': typeof ManagerSectionRoute
+  '/manager/': typeof ManagerIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/manager' | '/manager/$section' | '/manager/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/manager/$section' | '/manager'
+  id: '__root__' | '/' | '/manager' | '/manager/$section' | '/manager/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ManagerRoute: typeof ManagerRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -48,22 +75,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/manager': {
+      id: '/manager'
+      path: '/manager'
+      fullPath: '/manager'
+      preLoaderRoute: typeof ManagerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/manager/': {
+      id: '/manager/'
+      path: '/'
+      fullPath: '/manager/'
+      preLoaderRoute: typeof ManagerIndexRouteImport
+      parentRoute: typeof ManagerRoute
+    }
+    '/manager/$section': {
+      id: '/manager/$section'
+      path: '/$section'
+      fullPath: '/manager/$section'
+      preLoaderRoute: typeof ManagerSectionRouteImport
+      parentRoute: typeof ManagerRoute
+    }
   }
 }
 
+interface ManagerRouteChildren {
+  ManagerSectionRoute: typeof ManagerSectionRoute
+  ManagerIndexRoute: typeof ManagerIndexRoute
+}
+
+const ManagerRouteChildren: ManagerRouteChildren = {
+  ManagerSectionRoute: ManagerSectionRoute,
+  ManagerIndexRoute: ManagerIndexRoute,
+}
+
+const ManagerRouteWithChildren =
+  ManagerRoute._addFileChildren(ManagerRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ManagerRoute: ManagerRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
