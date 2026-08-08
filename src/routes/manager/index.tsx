@@ -1,6 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/manager/")({
   beforeLoad: () => {
     throw redirect({ to: "/manager/$section", params: { section: "dashboard" } });
   },

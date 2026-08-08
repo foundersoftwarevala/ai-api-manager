@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { installClientErrorMonitor, reportBoundaryError } from "../lib/client-error-monitor";
 
 function NotFoundComponent() {
   return (
@@ -39,6 +40,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   const router = useRouter();
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
+    reportBoundaryError(error);
   }, [error]);
 
   return (
@@ -77,14 +79,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Software Vala · AI API Manager" },
+      {
+        name: "description",
+        content:
+          "Software Vala AI API Manager — govern AI and external APIs, usage, billing, wallets, safety and emergency controls from one console.",
+      },
+      { name: "author", content: "Software Vala" },
+      { property: "og:title", content: "Software Vala · AI API Manager" },
+      {
+        property: "og:description",
+        content:
+          "Govern AI and external APIs, usage, billing, wallets, safety and emergency controls from one console.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
@@ -116,6 +125,10 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  useEffect(() => {
+    installClientErrorMonitor();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
