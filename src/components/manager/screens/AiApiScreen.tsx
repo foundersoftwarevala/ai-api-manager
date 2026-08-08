@@ -211,21 +211,39 @@ function ModalitySection({
                     <span>Quality: {Number(model['quality_score'] ?? 0).toFixed(1)}</span>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    disabled={Boolean(model['is_default']) || updateModel.isPending}
-                    onClick={() => setDefault(model)}
-                  >
-                    <Star className="mr-1 h-3.5 w-3.5" /> Set default
-                  </Button>
+                <div className="flex flex-col items-end gap-2">
                   <div className="flex items-center gap-2">
-                    <Power className="h-3.5 w-3.5 text-muted-foreground" />
-                    <Switch checked={model['status'] === "active"} onCheckedChange={() => toggleStatus(model)} />
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      disabled={modelTest.isPending}
+                      onClick={() => runTest(model)}
+                    >
+                      <Zap className="mr-1 h-3.5 w-3.5" />
+                      {modelTest.isPending && testingId === String(model['id']) ? "Testing…" : "Live test"}
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      disabled={Boolean(model['is_default']) || updateModel.isPending}
+                      onClick={() => setDefault(model)}
+                    >
+                      <Star className="mr-1 h-3.5 w-3.5" /> Set default
+                    </Button>
+                    <div className="flex items-center gap-2">
+                      <Power className="h-3.5 w-3.5 text-muted-foreground" />
+                      <Switch checked={model['status'] === "active"} onCheckedChange={() => toggleStatus(model)} />
+                    </div>
                   </div>
+                  {testingId === String(model['id']) && modelTest.data ? (
+                    <p className="max-w-sm text-right text-xs text-muted-foreground">
+                      “{modelTest.data.reply}” · {modelTest.data.tokensIn + modelTest.data.tokensOut} tokens ·{" "}
+                      {usd(modelTest.data.costUsd)}
+                    </p>
+                  ) : null}
                 </div>
               </div>
+
             ))}
           </div>
         )}
