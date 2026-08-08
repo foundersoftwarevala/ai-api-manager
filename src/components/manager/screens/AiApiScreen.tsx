@@ -13,6 +13,7 @@ import {
   DollarSign,
   Gauge,
   Layers,
+  Zap,
 } from "lucide-react";
 import {
   Area,
@@ -33,6 +34,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import {
   useManyRecords,
+  useModelTest,
   useUpdateRecord,
   type Row,
 } from "@/lib/manager-queries";
@@ -152,6 +154,17 @@ function ModalitySection({
   const avgQuality = modalityModels.length
     ? modalityModels.reduce((sum, m) => sum + Number(m['quality_score'] ?? 0), 0) / modalityModels.length
     : 0;
+
+  const modelTest = useModelTest();
+  const [testingId, setTestingId] = useState<string | null>(null);
+
+  const runTest = (model: Row) => {
+    setTestingId(String(model['id']));
+    modelTest.mutate({
+      modelRowId: String(model['id']),
+      prompt: `Reply with a one-line health confirmation for the ${String(model['name'])} model.`,
+    });
+  };
 
   const toggleStatus = (model: Row) => {
     const next = model['status'] === "active" ? "inactive" : "active";
