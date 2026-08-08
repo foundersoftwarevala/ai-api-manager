@@ -1,3 +1,5 @@
+import type { HealthResult, ModelTestResult } from "./manager-ops.types";
+
 /**
  * Real network operations for the manager console.
  * These perform genuine outbound HTTP calls and persist the results.
@@ -8,15 +10,6 @@ async function admin() {
   return supabaseAdmin;
 }
 
-export interface HealthResult {
-  serviceId: string;
-  name: string;
-  url: string;
-  status: "healthy" | "degraded" | "down" | "skipped";
-  statusCode: number | null;
-  latencyMs: number;
-  error: string | null;
-}
 
 async function probe(url: string, timeoutMs = 8000) {
   const started = Date.now();
@@ -144,14 +137,6 @@ export async function runHealthChecksImpl(serviceIds?: string[]): Promise<Health
   return results;
 }
 
-export interface ModelTestResult {
-  model: string;
-  reply: string;
-  tokensIn: number;
-  tokensOut: number;
-  costUsd: number;
-  latencyMs: number;
-}
 
 /** Run a real chat completion through the Lovable AI Gateway and log real usage. */
 export async function runModelTestImpl(input: {

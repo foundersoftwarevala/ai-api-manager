@@ -11,7 +11,7 @@ import {
   type Row,
 } from "./manager-data.functions";
 import { runHealthChecks, runModelTest } from "./manager-ops.functions";
-import type { HealthResult, ModelTestResult } from "./manager-ops.server";
+import type { HealthResult, ModelTestResult } from "./manager-ops.types";
 import type { ManagerTable } from "./manager-tables";
 
 export type { Row };
