@@ -113,7 +113,7 @@ export function useHealthChecks() {
   const fn = useServerFn(runHealthChecks);
   const invalidate = useInvalidate();
   return useMutation({
-    mutationFn: (vars?: { serviceIds?: string[] }) => fn({ data: vars ?? {} }),
+    mutationFn: (vars?: { serviceIds?: string[] }): Promise<HealthResult[]> => fn({ data: vars ?? {} }),
     onSuccess: (results) => {
       invalidate();
       const checked = results.filter((r) => r.status !== "skipped");
@@ -132,7 +132,7 @@ export function useModelTest() {
   const fn = useServerFn(runModelTest);
   const invalidate = useInvalidate();
   return useMutation({
-    mutationFn: (vars: { modelRowId: string; prompt: string }) => fn({ data: vars }),
+    mutationFn: (vars: { modelRowId: string; prompt: string }): Promise<ModelTestResult> => fn({ data: vars }),
     onSuccess: (r) => {
       invalidate();
       toast.success(`${r.model} replied in ${r.latencyMs}ms (${r.tokensIn + r.tokensOut} tokens)`);
