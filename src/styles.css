@@ -6,110 +6,117 @@
 
 /*
  * SOFTWARE VALA — UNIFIED DASHBOARD DESIGN SYSTEM
- * Sapphire + Graphite + Neon highlights, dark-first 3D glass UI.
+ * Deep navy enterprise surface + premium blue brand, dark-first.
  * HSL triplets live in :root; Tailwind v4 tokens wrap them in hsl().
  */
 
 :root {
-  --radius: 0.875rem;
+  --radius: 0.75rem;
 
-  /* Core */
-  --background: 258 20% 12%;
-  --foreground: 258 5% 97%;
-  --surface: 258 15% 18%;
-  --surface-1: 258 15% 18%;
-  --surface-2: 258 12% 22%;
+  /* Core — deep navy enterprise surface */
+  --background: 216 57% 9%;
+  --foreground: 211 47% 98%;
+  --surface: 216 42% 12%;
+  --surface-1: 216 42% 12%;
+  --surface-2: 216 40% 14%;
+  --surface-foreground: 211 47% 98%;
 
-  --card: 258 15% 18%;
-  --card-foreground: 258 5% 97%;
-  --popover: 258 15% 20%;
-  --popover-foreground: 258 5% 97%;
+  --card: 216 45% 12%;
+  --card-foreground: 211 47% 98%;
+  --popover: 216 40% 13%;
+  --popover-foreground: 211 47% 98%;
 
-  /* Brand */
-  --primary: 250 75% 58%;
-  --primary-foreground: 0 0% 99%;
-  --brand: 250 70% 52%;
-  --brand-foreground: 0 0% 99%;
-  --brand-red: 10 82% 55%;
+  /* Brand — premium enterprise blue */
+  --primary: 209 98% 46%;
+  --primary-foreground: 211 100% 99%;
+  --primary-glow: 208 91% 56%;
+  --brand: 209 98% 46%;
+  --brand-foreground: 211 100% 99%;
+  --brand-red: 360 76% 58%;
 
-  --secondary: 258 12% 26%;
-  --secondary-foreground: 258 5% 97%;
-  --muted: 258 10% 24%;
-  --muted-foreground: 258 8% 68%;
-  --accent: 255 15% 28%;
-  --accent-foreground: 258 5% 97%;
-  --destructive: 10 82% 55%;
-  --destructive-foreground: 0 0% 99%;
-  --success: 152 45% 62%;
-  --warning: 45 70% 65%;
+  --secondary: 216 30% 18%;
+  --secondary-foreground: 211 47% 98%;
+  --muted: 216 29% 16%;
+  --muted-foreground: 214 16% 68%;
+  --accent: 214 40% 21%;
+  --accent-foreground: 211 47% 98%;
+  --accent-pink: 262 55% 71%;
+  --accent-amber: 42 85% 63%;
+  --accent-emerald: 160 62% 46%;
+  --destructive: 360 76% 58%;
+  --destructive-foreground: 211 100% 99%;
+  --success: 160 62% 46%;
+  --warning: 42 85% 63%;
 
-  --border: 258 10% 22%;
-  --input: 258 10% 26%;
-  --ring: 250 75% 58%;
+  --border: 214 30% 22%;
+  --input: 214 30% 26%;
+  --ring: 209 98% 46%;
 
   /* Sidebar */
-  --sidebar: 258 22% 10%;
-  --sidebar-background: 258 22% 10%;
-  --sidebar-foreground: 258 8% 85%;
-  --sidebar-primary: 250 75% 58%;
-  --sidebar-primary-foreground: 0 0% 99%;
-  --sidebar-accent: 255 15% 22%;
-  --sidebar-accent-foreground: 258 5% 97%;
-  --sidebar-border: 258 12% 18%;
-  --sidebar-ring: 250 75% 58%;
+  --sidebar: 216 57% 9%;
+  --sidebar-background: 216 57% 9%;
+  --sidebar-foreground: 214 16% 78%;
+  --sidebar-primary: 209 98% 46%;
+  --sidebar-primary-foreground: 211 100% 99%;
+  --sidebar-accent: 214 40% 18%;
+  --sidebar-accent-foreground: 211 47% 98%;
+  --sidebar-border: 214 30% 20%;
+  --sidebar-ring: 209 98% 46%;
 
   /* Charts */
-  --chart-1: 250 75% 62%;
-  --chart-2: 190 75% 55%;
-  --chart-3: 150 55% 50%;
-  --chart-4: 45 90% 60%;
-  --chart-5: 340 75% 65%;
+  --chart-1: 209 98% 46%;
+  --chart-2: 208 91% 56%;
+  --chart-3: 160 62% 46%;
+  --chart-4: 42 85% 63%;
+  --chart-5: 262 55% 71%;
 
   /* Status */
-  --status-success: 152 45% 55%;
-  --status-warning: 45 70% 60%;
-  --status-error: 10 82% 55%;
-  --status-info: 220 75% 60%;
-  --status-pending: 45 70% 60%;
+  --status-success: 160 62% 46%;
+  --status-warning: 42 85% 63%;
+  --status-error: 360 76% 58%;
+  --status-info: 208 91% 56%;
+  --status-pending: 42 85% 63%;
 
-  /* Neon / aurora accents */
-  --neon-cyan: 190 75% 55%;
-  --neon-teal: 170 60% 50%;
-  --neon-green: 150 55% 50%;
-  --neon-violet: 275 70% 60%;
-  --neon-orange: 25 90% 55%;
-  --neon-red: 10 82% 55%;
-  --neon-purple: 275 70% 60%;
-  --neon-blue: 220 75% 60%;
-  --neon-pink: 320 65% 65%;
-  --neon-gold: 45 90% 60%;
-  --sapphire: 220 75% 60%;
-  --aurora-violet: 275 70% 60%;
-  --aurora-purple: 275 70% 55%;
-  --aurora-blue: 220 75% 60%;
-  --aurora-cyan: 190 75% 55%;
-  --aurora-teal: 170 60% 50%;
-  --aurora-green: 150 55% 50%;
-  --aurora-gold: 45 90% 60%;
-  --aurora-orange: 25 90% 55%;
-  --aurora-rose: 340 75% 65%;
-  --aurora-pink: 320 65% 65%;
+  /* Accent family (kept for existing component APIs) */
+  --neon-cyan: 195 80% 55%;
+  --neon-teal: 175 60% 45%;
+  --neon-green: 160 62% 46%;
+  --neon-violet: 262 55% 71%;
+  --neon-orange: 28 85% 60%;
+  --neon-red: 360 76% 58%;
+  --neon-purple: 262 55% 71%;
+  --neon-blue: 208 91% 56%;
+  --neon-pink: 320 55% 70%;
+  --neon-gold: 42 85% 63%;
+  --sapphire: 209 98% 46%;
+  --aurora-violet: 262 55% 71%;
+  --aurora-purple: 262 55% 71%;
+  --aurora-blue: 208 91% 56%;
+  --aurora-cyan: 195 80% 55%;
+  --aurora-teal: 175 60% 45%;
+  --aurora-green: 160 62% 46%;
+  --aurora-gold: 42 85% 63%;
+  --aurora-orange: 28 85% 60%;
+  --aurora-rose: 340 65% 68%;
+  --aurora-pink: 320 55% 70%;
 
   /* Gradients */
-  --gradient-brand: linear-gradient(135deg, hsl(250 75% 58%), hsl(275 70% 55%));
-  --gradient-aurora: linear-gradient(135deg, hsl(250 75% 58%), hsl(275 70% 55%), hsl(190 75% 55%));
-  --gradient-sunset: linear-gradient(135deg, hsl(25 90% 55%), hsl(340 75% 60%));
-  --gradient-ocean: linear-gradient(135deg, hsl(220 75% 55%), hsl(190 75% 55%));
-  --gradient-cosmic: linear-gradient(135deg, hsl(275 70% 55%), hsl(220 75% 55%));
-  --gradient-hero: linear-gradient(120deg, hsl(258 15% 22%) 0%, hsl(265 18% 20%) 50%, hsl(250 40% 30%) 100%);
+  --gradient-brand: linear-gradient(135deg, hsl(209 98% 46%), hsl(208 91% 56%));
+  --gradient-aurora: linear-gradient(135deg, hsl(209 98% 46%), hsl(208 91% 56%), hsl(262 55% 71%));
+  --gradient-sunset: linear-gradient(135deg, hsl(28 85% 60%), hsl(340 65% 68%));
+  --gradient-ocean: linear-gradient(135deg, hsl(209 98% 46%), hsl(195 80% 55%));
+  --gradient-cosmic: linear-gradient(135deg, hsl(262 55% 71%), hsl(209 98% 46%));
+  --gradient-hero: linear-gradient(135deg, hsl(209 98% 46%) 0%, hsl(208 91% 56%) 100%);
 
   /* Shadows */
-  --shadow-card: 0 8px 32px -12px hsl(0 0% 0% / 0.5);
-  --shadow-glow: 0 0 40px -8px hsl(250 75% 58% / 0.5);
+  --shadow-card: 0 1px 0 0 hsl(0 0% 100% / 0.04) inset, 0 20px 40px -20px hsl(0 0% 0% / 0.6);
+  --shadow-hero: 0 30px 80px -30px hsl(209 98% 46% / 0.55);
+  --shadow-glow: 0 0 40px -8px hsl(209 98% 46% / 0.5);
 
   /* Glass */
   --glass-border: 0 0% 100% / 0.08;
 }
+
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
