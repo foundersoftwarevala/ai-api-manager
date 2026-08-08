@@ -48,6 +48,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 
 import {
+  useHealthChecks,
   useInsertRecord,
   useManyRecords,
   useUpdateRecord,
