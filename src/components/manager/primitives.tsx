@@ -10,23 +10,52 @@ export function PageHeader({
   title,
   description,
   actions,
+  eyebrow,
+  icon,
 }: {
   title: string;
   description?: string;
   actions?: ReactNode;
+  eyebrow?: string;
+  icon?: ReactNode;
 }) {
   return (
-    <div className="flex flex-wrap items-start justify-between gap-4">
-      <div>
-        <h1 className="font-display text-2xl font-bold tracking-tight text-foreground">{title}</h1>
-        {description ? (
-          <p className="mt-1 text-sm text-muted-foreground">{description}</p>
-        ) : null}
+    <section className="hero-surface relative overflow-hidden px-5 py-6 sm:px-7 sm:py-8">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-16 -top-24 h-64 w-64 rounded-full bg-white/15 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-28 left-1/3 h-56 w-56 rounded-full bg-black/25 blur-3xl"
+      />
+      <div className="relative flex flex-wrap items-start justify-between gap-4">
+        <div className="min-w-0">
+          {eyebrow ? (
+            <span className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-white/15 px-2.5 py-1 text-[11px] font-medium uppercase tracking-wider text-primary-foreground/90 ring-1 ring-inset ring-white/20">
+              {eyebrow}
+            </span>
+          ) : null}
+          <div className="flex items-center gap-3">
+            {icon ? (
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/15 text-primary-foreground ring-1 ring-inset ring-white/25">
+                {icon}
+              </span>
+            ) : null}
+            <h1 className="font-display text-2xl font-bold tracking-tight text-primary-foreground sm:text-3xl">
+              {title}
+            </h1>
+          </div>
+          {description ? (
+            <p className="mt-2 max-w-2xl text-sm text-primary-foreground/80">{description}</p>
+          ) : null}
+        </div>
+        {actions ? <div className="relative flex flex-wrap gap-2">{actions}</div> : null}
       </div>
-      {actions ? <div className="flex flex-wrap gap-2">{actions}</div> : null}
-    </div>
+    </section>
   );
 }
+
 
 export function GlassCard({
   title,
