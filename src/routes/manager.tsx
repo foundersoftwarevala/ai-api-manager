@@ -293,14 +293,21 @@ function StatusBar({ onOpenMobile }: { onOpenMobile: () => void }) {
             </Badge>
           ) : null}
 
-          <button type="button" className={cn(ICON_BTN, "relative")} aria-label="Alerts">
+          <Link
+            to="/manager/$section"
+            params={{ section: "alerts" }}
+            search={{ view: "alert-security" }}
+            className={cn(ICON_BTN, "relative")}
+            aria-label="Alerts"
+          >
             <Bell className="h-[18px] w-[18px]" />
             {stats.alerts > 0 ? (
               <span className="absolute -right-0.5 -top-0.5 grid h-4 min-w-4 place-items-center rounded-full bg-destructive px-1 text-[10px] font-bold text-destructive-foreground ring-2 ring-background">
                 {stats.alerts}
               </span>
             ) : null}
-          </button>
+          </Link>
+
 
           <span className="relative ml-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary text-[11px] font-bold text-primary-foreground ring-1 ring-white/15">
             SV

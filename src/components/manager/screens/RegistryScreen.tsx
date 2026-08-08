@@ -271,6 +271,12 @@ function RegistryContent({
   );
 }
 
+function randomToken(length: number) {
+  const bytes = new Uint8Array(length);
+  crypto.getRandomValues(bytes);
+  return Array.from(bytes, (b) => "abcdefghijklmnopqrstuvwxyz0123456789"[b % 36]).join("");
+}
+
 function KeysPanel({ keys, services, providers }: { keys: Row[]; services: Row[]; providers: Row[] }) {
   const insert = useInsertRecord("API key created");
   const update = useUpdateRecord("API key updated");
@@ -283,7 +289,7 @@ function KeysPanel({ keys, services, providers }: { keys: Row[]; services: Row[]
   const createKey = () => {
     if (!label.trim()) return;
     const prefix = `sk_${environment.slice(0, 4)}`;
-    const lastFour = Math.random().toString(36).slice(-4);
+    const lastFour = randomToken(4);
     insert.mutate({
       table: "api_keys",
       values: {
@@ -292,7 +298,7 @@ function KeysPanel({ keys, services, providers }: { keys: Row[]; services: Row[]
         status: "active",
         key_prefix: prefix,
         last_four: lastFour,
-        fingerprint: `${prefix}_${lastFour}_${Date.now()}`,
+        fingerprint: `${prefix}_${randomToken(24)}`,
         service_id: serviceId === "none" ? null : serviceId,
         provider_id: providerId === "none" ? null : providerId,
         scopes: [],
@@ -306,7 +312,7 @@ function KeysPanel({ keys, services, providers }: { keys: Row[]; services: Row[]
   };
 
   const rotate = (row: Row) => {
-    const lastFour = Math.random().toString(36).slice(-4);
+    const lastFour = randomToken(4);
     update.mutate({
       table: "api_keys",
       id: String(row["id"]),
