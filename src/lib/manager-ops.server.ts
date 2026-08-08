@@ -154,13 +154,14 @@ export async function runModelTestImpl(input: {
   const apiKey = process.env["LOVABLE_API_KEY"];
   if (!apiKey) throw new Error("AI gateway key is not configured");
 
-  // The gateway serves a fixed catalogue; map catalogue rows to a served model.
+  // Catalogue rows that the gateway actually serves as chat models are called
+  // directly; non-chat rows (speech, image, embeddings, non-gateway vendors)
+  // fall back to a served text model so the probe is still a real call.
   const requested = String(model.model_id);
-  const served = /gemini|flash|pro/i.test(requested)
-    ? "google/gemini-3-flash"
-    : /gpt|openai/i.test(requested)
-      ? "openai/gpt-5.2"
-      : "google/gemini-3-flash";
+  const chatServable =
+    /^(openai\/gpt-5|google\/gemini-[23])/.test(requested) &&
+    !/(image|tts|transcribe|embedding)/.test(requested);
+  const served = chatServable ? requested : "google/gemini-3.5-flash";
 
   const started = Date.now();
   const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
