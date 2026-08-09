@@ -17,6 +17,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import SchemaGuard from "@/components/manager/SchemaGuard";
 import { MANAGER_NAV, findGroup } from "@/lib/manager-nav";
 import { inr, num } from "@/components/manager/primitives";
 import { useManyRecords } from "@/lib/manager-queries";
