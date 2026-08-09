@@ -47,6 +47,7 @@ import {
   TrendingUp,
   Users,
   Video,
+  Webhook,
   Wallet,
   Zap,
   type LucideIcon,
