@@ -4,6 +4,7 @@ import {
   AlertTriangle,
   BarChart3,
   Bell,
+  Blocks,
   Bot,
   Brain,
   Boxes,
