@@ -784,6 +784,179 @@ export type Database = {
         }
         Relationships: []
       }
+      extension_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          extension_id: string | null
+          id: string
+          install_id: string | null
+          latency_ms: number
+          message: string | null
+          metadata: Json
+          occurred_at: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          extension_id?: string | null
+          id?: string
+          install_id?: string | null
+          latency_ms?: number
+          message?: string | null
+          metadata?: Json
+          occurred_at?: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          extension_id?: string | null
+          id?: string
+          install_id?: string | null
+          latency_ms?: number
+          message?: string | null
+          metadata?: Json
+          occurred_at?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "extension_events_extension_id_fkey"
+            columns: ["extension_id"]
+            isOneToOne: false
+            referencedRelation: "extensions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "extension_events_install_id_fkey"
+            columns: ["install_id"]
+            isOneToOne: false
+            referencedRelation: "extension_installs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      extension_installs: {
+        Row: {
+          config: Json
+          created_at: string
+          environment: string
+          extension_id: string
+          granted_scopes: string[]
+          health: string
+          id: string
+          installed_by: string
+          last_sync_at: string | null
+          monthly_cost_usd: number
+          product: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          config?: Json
+          created_at?: string
+          environment?: string
+          extension_id: string
+          granted_scopes?: string[]
+          health?: string
+          id?: string
+          installed_by?: string
+          last_sync_at?: string | null
+          monthly_cost_usd?: number
+          product?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          config?: Json
+          created_at?: string
+          environment?: string
+          extension_id?: string
+          granted_scopes?: string[]
+          health?: string
+          id?: string
+          installed_by?: string
+          last_sync_at?: string | null
+          monthly_cost_usd?: number
+          product?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "extension_installs_extension_id_fkey"
+            columns: ["extension_id"]
+            isOneToOne: false
+            referencedRelation: "extensions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      extensions: {
+        Row: {
+          base_url: string | null
+          category: string
+          created_at: string
+          description: string | null
+          docs_url: string | null
+          id: string
+          install_count: number
+          is_official: boolean
+          name: string
+          price_usd_month: number
+          rating: number
+          scopes: string[]
+          slug: string
+          status: string
+          updated_at: string
+          vendor: string
+          version: string
+          webhook_url: string | null
+        }
+        Insert: {
+          base_url?: string | null
+          category?: string
+          created_at?: string
+          description?: string | null
+          docs_url?: string | null
+          id?: string
+          install_count?: number
+          is_official?: boolean
+          name: string
+          price_usd_month?: number
+          rating?: number
+          scopes?: string[]
+          slug: string
+          status?: string
+          updated_at?: string
+          vendor: string
+          version?: string
+          webhook_url?: string | null
+        }
+        Update: {
+          base_url?: string | null
+          category?: string
+          created_at?: string
+          description?: string | null
+          docs_url?: string | null
+          id?: string
+          install_count?: number
+          is_official?: boolean
+          name?: string
+          price_usd_month?: number
+          rating?: number
+          scopes?: string[]
+          slug?: string
+          status?: string
+          updated_at?: string
+          vendor?: string
+          version?: string
+          webhook_url?: string | null
+        }
+        Relationships: []
+      }
       failover_events: {
         Row: {
           extra_latency_ms: number

@@ -17,6 +17,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import SchemaGuard from "@/components/manager/SchemaGuard";
 import { MANAGER_NAV, findGroup } from "@/lib/manager-nav";
 import { inr, num } from "@/components/manager/primitives";
 import { useManyRecords } from "@/lib/manager-queries";
@@ -360,6 +361,7 @@ function ManagerLayout() {
       <div className="flex min-w-0 flex-1 flex-col">
         <StatusBar onOpenMobile={() => setMobileOpen(true)} />
         <main className="mx-auto w-full max-w-[1600px] flex-1 px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+          <SchemaGuard />
           <Outlet />
         </main>
       </div>

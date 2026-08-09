@@ -150,10 +150,14 @@ function AlertsContent({
   const openIncidents = incidents.filter((i) => i["status"] !== "resolved");
   const lowWallets = wallets.filter((w) => n(w, "balance") < n(w, "low_balance_threshold"));
 
-  const securityAlerts = useMemo(
-    () => alerts.filter((a) => String(a["category"]).toLowerCase().includes("security") || String(a["category"]).toLowerCase().includes("breach")),
-    [alerts],
-  );
+  const securityAlerts = useMemo(() => {
+    // Security-relevant categories as produced by the alerting pipeline.
+    const SECURITY_CATEGORIES = ["security", "breach", "access", "credentials", "abuse", "ai-safety", "auth"];
+    return alerts.filter((a) => {
+      const category = String(a["category"] ?? "").toLowerCase();
+      return SECURITY_CATEGORIES.some((c) => category.includes(c));
+    });
+  }, [alerts]);
 
   const overuseServices = useMemo(() => {
     const map = new Map<string, { name: string; requests: number; errors: number }>();

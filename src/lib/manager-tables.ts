@@ -37,6 +37,9 @@ export const MANAGER_TABLES = [
   "router_rules",
   "cache_entries",
   "failover_events",
+  "extensions",
+  "extension_installs",
+  "extension_events",
 ] as const;
 
 export type ManagerTable = (typeof MANAGER_TABLES)[number];
