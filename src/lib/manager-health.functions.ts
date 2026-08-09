@@ -36,14 +36,20 @@ export const checkSchemaHealth = createServerFn({ method: "GET" }).handler(
 
     const tables = await Promise.all(
       MANAGER_TABLES.map(async (table): Promise<TableHealth> => {
-        const { count, error } = await supabaseAdmin
-          .from(table)
-          .select("*", { count: "exact", head: true });
-        if (error) {
+        // Transient auth-clock skew can reject a valid key; retry once.
+        for (let attempt = 0; attempt < 2; attempt += 1) {
+          const { count, error } = await supabaseAdmin
+            .from(table)
+            .select("*", { count: "exact", head: true });
+          if (!error) return { table, exists: true, rows: count ?? -1, error: null };
+          if (attempt === 0) {
+            await new Promise((r) => setTimeout(r, 600));
+            continue;
+          }
           const missing = /schema cache|does not exist/i.test(error.message);
-          return { table, exists: !missing, rows: 0, error: error.message };
+          return { table, exists: !missing, rows: -1, error: error.message };
         }
-        return { table, exists: true, rows: count ?? 0, error: null };
+        return { table, exists: true, rows: -1, error: null };
       }),
     );
 
