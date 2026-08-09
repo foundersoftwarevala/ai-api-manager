@@ -279,6 +279,18 @@ export const MANAGER_NAV: NavGroup[] = [
     ],
   },
   {
+    id: "extensions",
+    label: "Extensions",
+    icon: Blocks,
+    children: [
+      { id: "ext-marketplace", label: "Marketplace", icon: Boxes },
+      { id: "ext-installed", label: "Installed Extensions", icon: Plug },
+      { id: "ext-permissions", label: "Permissions & Scopes", icon: Key },
+      { id: "ext-webhooks", label: "Webhooks", icon: Webhook },
+      { id: "ext-activity", label: "Activity Logs", icon: ScrollText },
+    ],
+  },
+  {
     id: "settings",
     label: "Settings",
     icon: Settings,
