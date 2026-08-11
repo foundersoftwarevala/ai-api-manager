@@ -34,15 +34,14 @@ export default function DeveloperScreen({ view }: { view?: string | undefined })
   const many = useManyRecords([
     { table: "ai_models", orderBy: "name", ascending: true, limit: 300 },
     { table: "api_services", orderBy: "name", ascending: true, limit: 300 },
-    { table: "ai_decision_logs", limit: 100 },
     { table: "extensions", orderBy: "name", ascending: true, limit: 200 },
     { table: "extension_events", orderBy: "occurred_at", ascending: false, limit: 200 },
     { table: "api_keys", limit: 300 },
-    { table: "rate_limits", limit: 200 },
   ]);
 
-  const [models = [], services = [], decisions = [], extensions = [], extEvents = [], keys = [], limits = []] =
-    many.data ?? [];
+  const [models = [], services = [], extensions = [], extEvents = [], keys = []] = many.data ?? [];
+  const decisions: Row[] = [];
+  const limits: Row[] = [];
 
   const header = (
     <PageHeader
