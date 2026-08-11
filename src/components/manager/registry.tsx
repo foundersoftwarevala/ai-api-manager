@@ -23,7 +23,9 @@ const SCREENS: Record<string, ComponentType<ScreenProps>> = {
   registry: lazy(() => import("./screens/RegistryScreen")),
   gateway: lazy(() => import("./screens/GatewayScreen")),
   governance: lazy(() => import("./screens/GovernanceScreen")),
+  developer: lazy(() => import("./screens/DeveloperScreen")),
   extensions: lazy(() => import("./screens/ExtensionsScreen")),
+
   settings: lazy(() => import("./screens/SettingsScreen")),
 };
 

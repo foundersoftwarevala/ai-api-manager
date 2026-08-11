@@ -281,17 +281,36 @@ export const MANAGER_NAV: NavGroup[] = [
     ],
   },
   {
+    id: "developer",
+    label: "Developer & Docs",
+    icon: FlaskConical,
+    children: [
+      { id: "dev-playground", label: "Testing Playground", icon: Play },
+      { id: "dev-docs", label: "API Documentation", icon: FileText },
+      { id: "dev-webhooks", label: "Webhooks & Events", icon: Webhook },
+      { id: "dev-environments", label: "Environments & Config", icon: Cloud },
+    ],
+  },
+  {
     id: "extensions",
-    label: "Extensions",
+    label: "Extension Manager",
     icon: Blocks,
     children: [
+      { id: "ext-overview", label: "Overview", icon: LayoutDashboard },
       { id: "ext-marketplace", label: "Marketplace", icon: Boxes },
       { id: "ext-installed", label: "Installed Extensions", icon: Plug },
+      { id: "ext-updates", label: "Updates & Versions", icon: RefreshCw },
+      { id: "ext-dependencies", label: "Dependencies", icon: GitBranch },
       { id: "ext-permissions", label: "Permissions & Scopes", icon: Key },
+      { id: "ext-config", label: "Configuration", icon: Settings },
       { id: "ext-webhooks", label: "Webhooks", icon: Webhook },
+      { id: "ext-health", label: "Health & Errors", icon: Activity },
+      { id: "ext-security", label: "Security", icon: Shield },
+      { id: "ext-publishers", label: "Publishers", icon: Users },
       { id: "ext-activity", label: "Activity Logs", icon: ScrollText },
     ],
   },
+
   {
     id: "settings",
     label: "Settings",
