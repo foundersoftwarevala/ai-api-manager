@@ -894,22 +894,78 @@ export type Database = {
           },
         ]
       }
+      extension_versions: {
+        Row: {
+          channel: string
+          created_at: string
+          extension_id: string
+          id: string
+          is_current: boolean
+          is_security_update: boolean
+          notes_url: string | null
+          released_at: string
+          updated_at: string
+          version: string
+        }
+        Insert: {
+          channel?: string
+          created_at?: string
+          extension_id: string
+          id?: string
+          is_current?: boolean
+          is_security_update?: boolean
+          notes_url?: string | null
+          released_at?: string
+          updated_at?: string
+          version: string
+        }
+        Update: {
+          channel?: string
+          created_at?: string
+          extension_id?: string
+          id?: string
+          is_current?: boolean
+          is_security_update?: boolean
+          notes_url?: string | null
+          released_at?: string
+          updated_at?: string
+          version?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "extension_versions_extension_id_fkey"
+            columns: ["extension_id"]
+            isOneToOne: false
+            referencedRelation: "extensions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       extensions: {
         Row: {
           base_url: string | null
           category: string
+          compatibility: string
           created_at: string
+          dependencies: string[]
           description: string | null
           docs_url: string | null
           id: string
           install_count: number
           is_official: boolean
+          latest_version: string
+          license: string
+          min_platform_version: string
           name: string
           price_usd_month: number
+          publisher_email: string
+          publisher_url: string | null
           rating: number
           scopes: string[]
           slug: string
           status: string
+          support_url: string | null
+          tags: string[]
           updated_at: string
           vendor: string
           version: string
@@ -918,18 +974,27 @@ export type Database = {
         Insert: {
           base_url?: string | null
           category?: string
+          compatibility?: string
           created_at?: string
+          dependencies?: string[]
           description?: string | null
           docs_url?: string | null
           id?: string
           install_count?: number
           is_official?: boolean
+          latest_version?: string
+          license?: string
+          min_platform_version?: string
           name: string
           price_usd_month?: number
+          publisher_email?: string
+          publisher_url?: string | null
           rating?: number
           scopes?: string[]
           slug: string
           status?: string
+          support_url?: string | null
+          tags?: string[]
           updated_at?: string
           vendor: string
           version?: string
@@ -938,18 +1003,27 @@ export type Database = {
         Update: {
           base_url?: string | null
           category?: string
+          compatibility?: string
           created_at?: string
+          dependencies?: string[]
           description?: string | null
           docs_url?: string | null
           id?: string
           install_count?: number
           is_official?: boolean
+          latest_version?: string
+          license?: string
+          min_platform_version?: string
           name?: string
           price_usd_month?: number
+          publisher_email?: string
+          publisher_url?: string | null
           rating?: number
           scopes?: string[]
           slug?: string
           status?: string
+          support_url?: string | null
+          tags?: string[]
           updated_at?: string
           vendor?: string
           version?: string
