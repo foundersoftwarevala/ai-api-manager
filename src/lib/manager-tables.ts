@@ -40,6 +40,8 @@ export const MANAGER_TABLES = [
   "extensions",
   "extension_installs",
   "extension_events",
+  "extension_versions",
+
 ] as const;
 
 export type ManagerTable = (typeof MANAGER_TABLES)[number];
