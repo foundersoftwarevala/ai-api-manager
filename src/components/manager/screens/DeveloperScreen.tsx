@@ -35,7 +35,7 @@ export default function DeveloperScreen({ view }: { view?: string | undefined })
     { table: "ai_models", orderBy: "name", ascending: true, limit: 300 },
     { table: "api_services", orderBy: "name", ascending: true, limit: 300 },
     { table: "extensions", orderBy: "name", ascending: true, limit: 200 },
-    { table: "extension_events", orderBy: "occurred_at", ascending: false, limit: 200 },
+    { table: "extension_events", limit: 200 },
     { table: "api_keys", limit: 300 },
   ]);
 
