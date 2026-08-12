@@ -161,15 +161,20 @@ function Playground({ models, decisions }: { models: Row[]; decisions: Row[] }) 
               <TableHeader>
                 <TableRow>
                   <TableHead>Decision</TableHead>
-                  <TableHead className="text-right">Latency</TableHead>
+                  <TableHead className="text-right">Tokens</TableHead>
+                  <TableHead className="text-right">Cost</TableHead>
+                  <TableHead className="text-right">Outcome</TableHead>
                   <TableHead className="text-right">When</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {decisions.slice(0, 10).map((d) => (
                   <TableRow key={str(d["id"])}>
-                    <TableCell className="max-w-[260px] truncate">{str(d["decision"] ?? d["action"] ?? d["rationale"])}</TableCell>
-                    <TableCell className="text-right">{Number(d["latency_ms"] ?? 0)} ms</TableCell>
+                    <TableCell className="max-w-[260px] truncate">{str(d["decision"])}</TableCell>
+                    <TableCell className="text-right">{Number(d["tokens"] ?? 0)}</TableCell>
+                    <TableCell className="text-right">{usd(Number(d["cost_usd"] ?? 0))}</TableCell>
+                    <TableCell className="text-right"><StatusBadge value={str(d["outcome"])} /></TableCell>
+
                     <TableCell className="text-right text-muted-foreground">{when((d["occurred_at"] ?? d["created_at"]) as string)}</TableCell>
                   </TableRow>
                 ))}
