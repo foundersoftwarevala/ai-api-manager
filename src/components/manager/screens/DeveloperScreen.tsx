@@ -35,13 +35,22 @@ export default function DeveloperScreen({ view }: { view?: string | undefined })
     { table: "ai_models", orderBy: "name", ascending: true, limit: 300 },
     { table: "api_services", orderBy: "name", ascending: true, limit: 300 },
     { table: "extensions", orderBy: "name", ascending: true, limit: 200 },
-    { table: "extension_events", limit: 200 },
+    { table: "extension_events", orderBy: "occurred_at", limit: 200 },
     { table: "api_keys", limit: 300 },
+    { table: "ai_decision_logs", orderBy: "occurred_at", limit: 50 },
+    { table: "rate_limits", limit: 200 },
   ]);
 
-  const [models = [], services = [], extensions = [], extEvents = [], keys = []] = many.data ?? [];
-  const decisions: Row[] = [];
-  const limits: Row[] = [];
+  const [
+    models = [],
+    services = [],
+    extensions = [],
+    extEvents = [],
+    keys = [],
+    decisions = [],
+    limits = [],
+  ] = many.data ?? [];
+
 
   const header = (
     <PageHeader
@@ -152,16 +161,21 @@ function Playground({ models, decisions }: { models: Row[]; decisions: Row[] }) 
               <TableHeader>
                 <TableRow>
                   <TableHead>Decision</TableHead>
-                  <TableHead className="text-right">Latency</TableHead>
+                  <TableHead className="text-right">Tokens</TableHead>
+                  <TableHead className="text-right">Cost</TableHead>
+                  <TableHead className="text-right">Outcome</TableHead>
                   <TableHead className="text-right">When</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {decisions.slice(0, 10).map((d) => (
                   <TableRow key={str(d["id"])}>
-                    <TableCell className="max-w-[260px] truncate">{str(d["decision"] ?? d["action"] ?? d["rationale"])}</TableCell>
-                    <TableCell className="text-right">{Number(d["latency_ms"] ?? 0)} ms</TableCell>
-                    <TableCell className="text-right text-muted-foreground">{when(d["created_at"] as string)}</TableCell>
+                    <TableCell className="max-w-[260px] truncate">{str(d["decision"])}</TableCell>
+                    <TableCell className="text-right">{Number(d["tokens"] ?? 0)}</TableCell>
+                    <TableCell className="text-right">{usd(Number(d["cost_usd"] ?? 0))}</TableCell>
+                    <TableCell className="text-right"><StatusBadge value={str(d["outcome"])} /></TableCell>
+
+                    <TableCell className="text-right text-muted-foreground">{when((d["occurred_at"] ?? d["created_at"]) as string)}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
