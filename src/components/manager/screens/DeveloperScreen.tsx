@@ -35,13 +35,22 @@ export default function DeveloperScreen({ view }: { view?: string | undefined })
     { table: "ai_models", orderBy: "name", ascending: true, limit: 300 },
     { table: "api_services", orderBy: "name", ascending: true, limit: 300 },
     { table: "extensions", orderBy: "name", ascending: true, limit: 200 },
-    { table: "extension_events", limit: 200 },
+    { table: "extension_events", orderBy: "occurred_at", limit: 200 },
     { table: "api_keys", limit: 300 },
+    { table: "ai_decision_logs", orderBy: "occurred_at", limit: 50 },
+    { table: "rate_limits", limit: 200 },
   ]);
 
-  const [models = [], services = [], extensions = [], extEvents = [], keys = []] = many.data ?? [];
-  const decisions: Row[] = [];
-  const limits: Row[] = [];
+  const [
+    models = [],
+    services = [],
+    extensions = [],
+    extEvents = [],
+    keys = [],
+    decisions = [],
+    limits = [],
+  ] = many.data ?? [];
+
 
   const header = (
     <PageHeader
