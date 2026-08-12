@@ -170,7 +170,7 @@ function Playground({ models, decisions }: { models: Row[]; decisions: Row[] }) 
                   <TableRow key={str(d["id"])}>
                     <TableCell className="max-w-[260px] truncate">{str(d["decision"] ?? d["action"] ?? d["rationale"])}</TableCell>
                     <TableCell className="text-right">{Number(d["latency_ms"] ?? 0)} ms</TableCell>
-                    <TableCell className="text-right text-muted-foreground">{when(d["created_at"] as string)}</TableCell>
+                    <TableCell className="text-right text-muted-foreground">{when((d["occurred_at"] ?? d["created_at"]) as string)}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
